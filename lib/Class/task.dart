@@ -60,7 +60,7 @@ class Task{
     endTime = json['endTime'];
     color = json['color'];
     remind = json["remind"];
-    repeat = json['repaet'];
+    repeat = json['repeat'];
   }
 
 }

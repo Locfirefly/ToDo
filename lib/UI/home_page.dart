@@ -2,12 +2,11 @@ import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:taskmanager/Services/notification_services.dart';
 import 'package:taskmanager/Services/theme_services.dart';
 import 'package:get/get.dart';
 import 'package:taskmanager/UI/theme.dart';
 import 'package:taskmanager/UI/widgets/button.dart';
-
+import 'package:awesome_notifications/awesome_notifications.dart';
 import '../controller/task_controller.dart';
 import 'add_task_bar.dart';
 
@@ -19,16 +18,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   DateTime _selectedDate = DateTime.now();
   final _taskController = Get.put(TaskController());
-  var notifyHelper;
+  
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    notifyHelper= NotifyHelper();
-    notifyHelper.initializeNotification();
-    notifyHelper.requestIOSPermissions();
+    AwesomeNotifications().isNotificationAllowed().then((isAllowed){
+      if(!isAllowed){
+        showDialog(
+            context: context,
+            builder: (context) => AlertDialog(title: Text(""),),
+        );
+      }
+    });
   }
 
   @override
@@ -124,14 +129,14 @@ class _HomePageState extends State<HomePage> {
           color: Get.isDarkMode? Colors.white:Colors.black,
         ),
       ),
-      actions: const [
+      /*actions: const [
         CircleAvatar(
           backgroundImage: AssetImage(
             "image/avatar2.png"
           ),
         ),
         SizedBox(width: 25,)
-      ],
+      ],*/
     );
   }
 }
